@@ -1,34 +1,45 @@
+import os
 from abc import ABC, abstractmethod
 from config import URL_HH, URL_SJ, JSON_HH, JSON_SJ
 import requests
-from json_processing import JsonProcessing
+from json_processing import JsonProcessingHH, JsonProcessingSJ
 
 
 class API_Request(ABC):
+
     @abstractmethod
     def api_request(self):
-    pass
+        pass
+
+
+# class HH_API_Request(API_Request):
+#     def __init__(self, keyword, page=0, area=113):
+#         self.url = URL_HH
+#         self.parameter = {
+#             'text': keyword,
+#             'page': page,
+#             'area': area
+#         }
+#
+#     def api_request(self):
+#         response = requests.get(self.url, params=self.parameter)
+#         JsonProcessingHH.save_json(response.json()['items'])
+#
 
 class SJ_API_Request(API_Request):
-    def __init__(self, keyword, area=113):
-        self.url = URL_HH
-        self.keyword = keyword
-        self.area = area
-        self.parameter = {'text': self.keyword, 'area': self.area}
-
-    def api_request(self):
-        response = requests.get(self.url, self.parameter)
-        WorkWithJson.save_json(response.json()['items'])
-
-class HH_API_Request(API_Request):
-    def __init__(self, keyword, page=0, area=113):
-        self.url = URL_HH
+    def __init__(self, keyword, page=1) -> None:
+        self.url = URL_SJ
         self.parameter = {
-            'text': keyword,
-            'page': page,
-            'area': area
+            'keywords': keyword,
+            'page': page
         }
 
     def api_request(self):
-        response = requests.get(self.url, self.parameter)
-        JsonProcessing.save_json(response.json()['items'])
+        headers = {'X-Api-App-Id': os.getenv('SUPERJOB_API_KEY')}
+        response = requests.get(self.url, headers=headers, params=self.parameter)
+        JsonProcessingSJ.save_json(response.json()['objects'])
+
+
+
+sjapi = SJ_API_Request("python")
+sjapi.api_request()
