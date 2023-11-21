@@ -1,34 +1,49 @@
+import os
 from abc import ABC, abstractmethod
-from config import URL_HH, URL_SJ, JSON_HH, JSON_SJ
+from config import URL_HH, URL_SJ
 import requests
-from json_processing import JsonProcessing
+from src.json_processing import JsonProcessingHH, JsonProcessingSJ
 
 
 class API_Request(ABC):
+    """запросы с сайтов"""
+
     @abstractmethod
     def api_request(self):
-    pass
+        pass
 
-class SJ_API_Request(API_Request):
-    def __init__(self, keyword, area=113):
-        self.url = URL_HH
-        self.keyword = keyword
-        self.area = area
-        self.parameter = {'text': self.keyword, 'area': self.area}
-
-    def api_request(self):
-        response = requests.get(self.url, self.parameter)
-        WorkWithJson.save_json(response.json()['items'])
 
 class HH_API_Request(API_Request):
-    def __init__(self, keyword, page=0, area=113):
+    """запросы с сайта НН"""
+    def __init__(self, keyword=str, page=0, area=113):
         self.url = URL_HH
         self.parameter = {
             'text': keyword,
             'page': page,
-            'area': area
+            'area': area,
+            'only_with_salary': True
         }
 
     def api_request(self):
-        response = requests.get(self.url, self.parameter)
-        JsonProcessing.save_json(response.json()['items'])
+        """запрос с сайта HH и загрузка в json файл"""
+        response = requests.get(self.url, params=self.parameter)
+        JsonProcessingHH.save_json(response.json()['items'])
+
+
+class SJ_API_Request(API_Request):
+    """запрос с сайта SJ"""
+    def __init__(self, keyword=str, page=1) -> None:
+        self.url = URL_SJ
+        self.parameter = {
+            'keywords': keyword,
+            'page': page
+        }
+
+    def api_request(self):
+        """запрос с сайта и загрузка в json файл"""
+        headers = {'X-Api-App-Id': os.getenv('SUPERJOB_API_KEY')}
+        response = requests.get(self.url, headers=headers, params=self.parameter)
+        JsonProcessingSJ.save_json(response.json()['objects'])
+
+hh_request = HH_API_Request("python")
+hh_request.api_request()
