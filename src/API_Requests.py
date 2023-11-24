@@ -27,6 +27,7 @@ class HH_API_Request(API_Request):
     def api_request(self):
         """запрос с сайта HH и загрузка в json файл"""
         response = requests.get(self.url, params=self.parameter)
+        print(response.status_code)
         JsonProcessingHH.save_json(response.json()['items'])
 
 
@@ -45,5 +46,5 @@ class SJ_API_Request(API_Request):
         response = requests.get(self.url, headers=headers, params=self.parameter)
         JsonProcessingSJ.save_json(response.json()['objects'])
 
-hh_request = HH_API_Request("python")
-hh_request.api_request()
+# hh_request = HH_API_Request("python")
+# hh_request.api_request()

@@ -31,7 +31,7 @@ class JsonProcessingHH(JsonProcessing):
     @classmethod
     def read_json(cls) -> None:
         """чтение json"""
-        with open(cls.path, 'w', encoding='utf-8') as file:
+        with open(cls.path, 'r', encoding='utf-8') as file:
             return json.load(file)
 
 
@@ -48,6 +48,6 @@ class JsonProcessingSJ(JsonProcessing):
     @classmethod
     def read_json(cls) -> None:
         """чтение json"""
-        with open(cls.path, 'w', encoding='utf-8') as file:
+        with open(cls.path, 'r', encoding='utf-8') as file:
             return json.load(file)
 
