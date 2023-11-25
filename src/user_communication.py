@@ -1,4 +1,4 @@
-from src.api_requests import HH_API_Request, SJ_API_Request
+from src.api_requests import APIRequestHH, APIRequestSJ
 from src.vacancies import VacanciesHH, VacanciesSJ
 
 
@@ -20,7 +20,7 @@ def user_communication():
         elif site == 1:
             print("Введите ключевое слово для поиска вакансии\n")
             key_word = input()
-            hh_vac = HH_API_Request(key_word)
+            hh_vac = APIRequestHH(key_word)
             hh_vac.api_request()
             vacancy_result = VacanciesHH.get_data()
             for vacancy in vacancy_result:
@@ -34,7 +34,7 @@ def user_communication():
         elif site == 2:
             print("Введите ключевое слово для поиска вакансии\n")
             key_word = input()
-            sj_vac = SJ_API_Request(key_word)
+            sj_vac = APIRequestSJ(key_word)
             sj_vac.api_request()
             vacancy_result = VacanciesSJ.get_data()
             for vacancy in vacancy_result:

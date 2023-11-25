@@ -13,7 +13,7 @@ class API_Request(ABC):
         pass
 
 
-class HH_API_Request(API_Request):
+class APIRequestHH(API_Request):
     """Запросы с сайта НН."""
     def __init__(self, keyword=str, page=0, area=113):
         self.url = URL_HH
@@ -31,7 +31,7 @@ class HH_API_Request(API_Request):
         JsonProcessingHH.save_json(response.json()['items'])
 
 
-class SJ_API_Request(API_Request):
+class APIRequestSJ(API_Request):
     """Запрос с сайта SJ."""
     def __init__(self, keyword=str, page=1) -> None:
         self.url = URL_SJ
