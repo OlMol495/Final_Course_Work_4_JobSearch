@@ -6,7 +6,7 @@ from src.json_processing import JsonProcessingHH, JsonProcessingSJ
 
 
 class API_Request(ABC):
-    """запросы с сайтов"""
+    """Запросы с сайтов."""
 
     @abstractmethod
     def api_request(self):
@@ -14,7 +14,7 @@ class API_Request(ABC):
 
 
 class HH_API_Request(API_Request):
-    """запросы с сайта НН"""
+    """Запросы с сайта НН."""
     def __init__(self, keyword=str, page=0, area=113):
         self.url = URL_HH
         self.parameter = {
@@ -25,14 +25,14 @@ class HH_API_Request(API_Request):
         }
 
     def api_request(self):
-        """запрос с сайта HH и загрузка в json файл"""
+        """Запрос с сайта HH и загрузка в json файл."""
         response = requests.get(self.url, params=self.parameter)
         print(response.status_code)
         JsonProcessingHH.save_json(response.json()['items'])
 
 
 class SJ_API_Request(API_Request):
-    """запрос с сайта SJ"""
+    """Запрос с сайта SJ."""
     def __init__(self, keyword=str, page=1) -> None:
         self.url = URL_SJ
         self.parameter = {
@@ -41,7 +41,7 @@ class SJ_API_Request(API_Request):
         }
 
     def api_request(self):
-        """запрос с сайта и загрузка в json файл"""
+        """Запрос с сайта и загрузка в json файл."""
         headers = {'X-Api-App-Id': os.getenv('SUPERJOB_API_KEY')}
         response = requests.get(self.url, headers=headers, params=self.parameter)
         JsonProcessingSJ.save_json(response.json()['objects'])

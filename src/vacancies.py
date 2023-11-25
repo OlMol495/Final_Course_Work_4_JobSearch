@@ -3,7 +3,7 @@ from src.json_processing import JsonProcessingHH, JsonProcessingSJ
 
 
 class Vacancies(ABC):
-    """обработка вакансий"""
+    """Обработка вакансий."""
 
     @classmethod
     @abstractmethod
@@ -12,7 +12,7 @@ class Vacancies(ABC):
 
 
 class VacanciesHH(Vacancies):
-    """вакансии сайта НН"""
+    """Вакансии сайта НН."""
 
     def __init__(self, title: str, link: str, description: str, salary: dict) -> None:
         self.title = title
@@ -39,23 +39,23 @@ class VacanciesHH(Vacancies):
 
     @classmethod
     def get_data(cls) -> None:
-        """вывод вакансий из json по ключевым параметрам"""
+        """Вывод вакансий из json по ключевым параметрам."""
         vacancy_s = []
         vacancies = JsonProcessingHH.read_json()
-        for i in vacancies:
+        for vacancy in vacancies:
             vacancy_s.append(
                 VacanciesHH(
-                    i["name"],
-                    i["alternate_url"],
-                    i["snippet"]["responsibility"],
-                    i["salary"],
+                    vacancy["name"],
+                    vacancy["alternate_url"],
+                    vacancy["snippet"]["responsibility"],
+                    vacancy["salary"],
                 )
             )
         return vacancy_s
 
 
 class VacanciesSJ(Vacancies):
-    """вакансии сайта SJ"""
+    """Вакансии сайта SJ."""
 
     def __init__(self, title: str, link: str, description: str, salary: str):
         self.title = title
@@ -79,16 +79,16 @@ class VacanciesSJ(Vacancies):
 
     @classmethod
     def get_data(cls) -> None:
-        """вывод вакансий из json по ключевым параметрам"""
+        """Вывод вакансий из json по ключевым параметрам."""
         vacancy_s = []
         vacancies = JsonProcessingSJ.read_json()
-        for i in vacancies:
+        for vacancy in vacancies:
             vacancy_s.append(
                 VacanciesSJ(
-                    i["profession"],
-                    i["link"],
-                    i["candidat"],
-                    i["payment_from"],
+                    vacancy["profession"],
+                    vacancy["link"],
+                    vacancy["candidat"],
+                    vacancy["payment_from"],
                 )
             )
         return vacancy_s

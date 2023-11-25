@@ -1,10 +1,10 @@
-from src.API_Requests import HH_API_Request, SJ_API_Request
+from src.api_requests import HH_API_Request, SJ_API_Request
 from src.vacancies import VacanciesHH, VacanciesSJ
 
 
 def user_communication():
-    """диалоговое меню пользователя, возможность
-    выбрать для поиска сайт, вакансию, сортировать вакансии"""
+    """Диалоговое меню пользователя, возможность
+    выбрать для поиска сайт, вакансию, сортировать вакансии."""
 
     print("Здравствуйте! Выберите сайт для поиска вакансий:"
           "введите 1 для сайта НН или 2 для сайта SuperJob\n"
